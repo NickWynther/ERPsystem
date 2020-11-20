@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  inventorymicroservice:
+    image: ${DOCKER_REGISTRY-}inventorymicroservice
+    build:
+      context: .
+      dockerfile: InventoryMicroservice\Dockerfile
