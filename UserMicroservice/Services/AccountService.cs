@@ -14,14 +14,14 @@ namespace UserMicroservice.Services
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        private readonly IConfiguration _config;
+        private readonly IJwtFactory _jwtFactory;
 
         public AccountService( SignInManager<User> signInManager, UserManager<User> userManager, 
-            IConfiguration config)
+            IJwtFactory jwtFactory)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _config = config;
+            _jwtFactory = jwtFactory;
         }
 
         public async Task<RegisterDto> Register(RegisterDto model , RoleType role)
@@ -29,40 +29,41 @@ namespace UserMicroservice.Services
             var existingUser = await _userManager.FindByEmailAsync(model.Email);
             if (existingUser == null)
             {
-                var registrator = new Registrator(_userManager);
-                if (registrator.Register(model, role.ToString()).Result)
+                User user = new User
                 {
-                    return model;
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
+                };
+
+                IdentityResult result = _userManager.CreateAsync(user, model.Password).Result;
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, role.ToString());
                 }
+
+                return model;
             }
 
             return null;
         }
 
         public async Task<LoginResult> Login(LoginDto model)
-        {  
+        {
+            var result = new LoginResult();
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null)
+            if (result.UserExist = user != null)
             {
                 var passwordCheck = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-                if (passwordCheck.Succeeded)
+                if (result.PasswordCheck = passwordCheck.Succeeded)
                 {
-                    var jwt = new JwtFactory(
-                        _userManager,
-                        _config["Tokens:Key"],
-                        _config["Tokens:Issuer"],
-                        _config["Tokens:Audience"]
-                        ).Create(user, 60);
-
-                    return new LoginResult() { Jwt = jwt, UserExist = true, PasswordCheck = true };
+                    result.Jwt = _jwtFactory.Create(user, 60);
                 }
             }
-            else
-            {
-                return new LoginResult() { Jwt = null, UserExist = false , PasswordCheck = false };
-            }
 
-            return new LoginResult() { Jwt = null, UserExist = true, PasswordCheck = false };
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using UserMicroservice.Data.Entities;
 
 namespace UserMicroservice.Services
 {
-    public class JwtFactory
+    public class JwtFactory : IJwtFactory 
     {
         private readonly UserManager<User> _userManager;
         private readonly string _key;
@@ -24,24 +25,20 @@ namespace UserMicroservice.Services
             _key = key;
             _issuer = issuer;
             _audience = audience;
+        }
 
+        public JwtFactory(UserManager<User>  userManager , IConfiguration config)
+        {
+            _userManager = userManager;
+            _key = config["Tokens:Key"];
+            _issuer = config["Tokens:Issuer"];
+            _audience = config["Tokens:Audience"];
         }
 
         public JwtDto Create(User user , int minutes)
         {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-            };
-
             var userRoles = _userManager.GetRolesAsync(user).Result;
-            foreach (var userRole in userRoles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, userRole));
-            }
-
+            var claims = CreateClaims(user, userRoles);
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
@@ -58,6 +55,20 @@ namespace UserMicroservice.Services
                 Expiration = token.ValidTo,
                 Roles = userRoles.ToList()
             };
-        } 
+        }
+
+        private static List<Claim> CreateClaims(User user, IList<string> userRoles)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+            };
+
+            userRoles.ToList().ForEach(role => claims.Add(new Claim(ClaimTypes.Role, role)));
+
+            return claims;
+        }
     }
 }

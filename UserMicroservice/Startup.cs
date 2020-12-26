@@ -47,6 +47,7 @@ namespace UserMicroservice
                 );
 
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IJwtFactory, JwtFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

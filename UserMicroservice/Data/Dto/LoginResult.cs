@@ -8,7 +8,7 @@ namespace UserMicroservice.Data.Dto
     public class LoginResult
     {
         public JwtDto Jwt { get; set; }
-        public bool UserExist { get; set; }
-        public bool PasswordCheck { get; set; }
+        public bool UserExist { get; set; } = false;
+        public bool PasswordCheck { get; set; } = false;
     }
 }

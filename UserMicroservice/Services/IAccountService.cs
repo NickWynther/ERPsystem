@@ -9,7 +9,7 @@ namespace UserMicroservice.Services
 {
     public interface IAccountService
     {
-        public Task<RegisterDto> Register(RegisterDto model , RoleType role);
-        public Task<LoginResult> Login(LoginDto model);
+        Task<RegisterDto> Register(RegisterDto model , RoleType role);
+        Task<LoginResult> Login(LoginDto model);
     }
 }
