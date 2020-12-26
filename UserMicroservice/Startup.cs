@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using UserMicroservice.Data.Entities;
 using UserMicroservice.Data.Repos;
+using UserMicroservice.Services;
 
 namespace UserMicroservice
 {
@@ -44,6 +45,8 @@ namespace UserMicroservice
                 key: Configuration["Tokens:Key"], //this should be same which is used while creating token 
                 issuer: Configuration["Tokens:Issuer"] //this should be same which is used while creating token 
                 );
+
+            services.AddTransient<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

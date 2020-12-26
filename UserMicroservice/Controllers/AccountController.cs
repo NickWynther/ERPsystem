@@ -12,86 +12,42 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using UserMicroservice.Data.Dto;
 using UserMicroservice.Data.Entities;
+using UserMicroservice.Data.Enums;
 using UserMicroservice.Services;
 
 namespace UserMicroservice.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(Router.controller)]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
-        private readonly IConfiguration _config;
-
-        public AccountController(
-            SignInManager<User> signInManager,
-            UserManager<User> userManager,
-            IConfiguration config)
+        private readonly IAccountService _accountService;
+        public AccountController( IAccountService accountService)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _config = config;
+            _accountService = accountService;
         }
 
-        [HttpPost("register/user")]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterDto model)
-        { 
-            var existingUser = await _userManager.FindByEmailAsync(model.Email);
-            if (existingUser == null)
-            {
-                var registrator = new Registrator(_userManager);
-                if (registrator.Register(model, "User").Result)
-                {
-                    return Created("", model);
-                }
-            }
-
-            return BadRequest();
-        }
-
+        [HttpPost(Router.registerUser)]
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterDto model) =>
+            await _accountService.Register(model , RoleType.User) == null ? (IActionResult)BadRequest() : Created("", model);
+        
         [Authorize(Roles = "Admin")]
-        [HttpPost("register/admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto model)
-        {
-            var existingUser = await _userManager.FindByEmailAsync(model.Email);
-            if (existingUser == null)
-            {
-                var registrator = new Registrator(_userManager);
-                if (registrator.Register(model, "Admin").Result)
-                {
-                    return Created("", model);
-                }
-            }
+        [HttpPost(Router.registerAdmin)]
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto model) =>
+             await _accountService.Register(model , RoleType.Admin) == null ? (IActionResult) BadRequest() : Created("", model);
 
-            return BadRequest();
-        }
-
-        [HttpPost("login")]
+        [HttpPost(Router.login)]
         public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null)
+            var result = await _accountService.Login(model);
+            if (result.Jwt != null)
             {
-                var passwordCheck = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-                if (passwordCheck.Succeeded)
-                {
-                    var jwt = new JwtFactory(
-                        _userManager,
-                        _config["Tokens:Key"],
-                        _config["Tokens:Issuer"],
-                        _config["Tokens:Audience"]
-                        ).Create(user, 60);
-                    
-                    return Ok(jwt);
-                }
+                return Ok(result.Jwt);
             }
             else
             {
-                return Unauthorized();
-            }
-            
-            return BadRequest();
+                 return result.UserExist ? (IActionResult)BadRequest() : Unauthorized();
+            } 
         }
     }
 }

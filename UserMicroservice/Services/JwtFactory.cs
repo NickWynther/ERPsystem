@@ -55,7 +55,8 @@ namespace UserMicroservice.Services
             return new JwtDto
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = token.ValidTo
+                Expiration = token.ValidTo,
+                Roles = userRoles.ToList()
             };
         } 
     }
