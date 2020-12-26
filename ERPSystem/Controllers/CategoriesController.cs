@@ -27,7 +27,7 @@ namespace ERPSystem.Controllers
             return await _inventoryService.GetCategoriesAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Category/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {

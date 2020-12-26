@@ -112,10 +112,7 @@ namespace ERPSystem.Services
         public async Task<bool> UpdateCategoryAsync(int id, Category category)
         {
             HttpResponseMessage response = await _client.PutAsJsonAsync(_categoriesUri + id, category);
-            //response.EnsureSuccessStatusCode();
-            //// Deserialize the updated product from the response body.
-            //category = await response.Content.ReadAsAsync<Category>();
-            //return category;
+ 
             return response.IsSuccessStatusCode;
         }
     
@@ -133,8 +130,6 @@ namespace ERPSystem.Services
 
         public async Task<Category> DeleteCategoryAsync(int id)
         {
-            //HttpResponseMessage response = await _client.DeleteAsync(_categoriesUri + id);
-            //return response.StatusCode;
             Category category = null;
             HttpResponseMessage response = await _client.DeleteAsync(_categoriesUri + id);
             if (response.IsSuccessStatusCode)

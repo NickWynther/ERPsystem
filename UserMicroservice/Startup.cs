@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ERPSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,22 +37,13 @@ namespace UserMicroservice
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<UserContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders();      
 
-           
-            //services.AddAuthentication().AddJwtBearer();
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidIssuer = Configuration["Tokens:Issuer"],
-                    ValidAudience = Configuration["Tokens:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
-                };
-            });
+            //My custom service 
+            services.AddJwtService(
+                key: Configuration["Tokens:Key"], //this should be same which is used while creating token 
+                issuer: Configuration["Tokens:Issuer"] //this should be same which is used while creating token 
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -49,6 +49,7 @@ namespace UserMicroservice.Controllers
 
             return BadRequest();
         }
+
         [Authorize(Roles = "Admin")]
         [HttpPost("register/admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterDto model)

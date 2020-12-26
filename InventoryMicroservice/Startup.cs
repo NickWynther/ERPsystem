@@ -32,6 +32,12 @@ namespace InventoryMicroservice
             services.AddControllers();
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<InventoryContext>(options => options.UseSqlServer(connection));
+
+            // using inmemory database
+            //services.AddDbContext<InventoryContext>(
+            //    options => options.UseInMemoryDatabase("InMemoryInventoryDb"));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

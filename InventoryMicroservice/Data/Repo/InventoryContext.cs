@@ -15,7 +15,7 @@ namespace InventoryMicroservice.Data.Repo
         public InventoryContext(DbContextOptions<InventoryContext> options)
             : base(options)
         {
-            Database.Migrate();
+            //Database.Migrate();
         }
     }
 }

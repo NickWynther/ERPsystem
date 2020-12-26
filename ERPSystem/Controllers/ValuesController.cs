@@ -43,7 +43,7 @@ namespace ERPSystem.Controllers
             }
         }
 
-        // GET api/<ValuesController>/auth
+        // GET api/<ValuesController>/role
         [HttpGet("role")]
         public string Role()
         {
