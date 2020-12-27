@@ -32,7 +32,7 @@ namespace UserMicroservice.Services
         
         public async Task<RegisterDto> Register(RegisterDto model , RoleType role)
         {
-            if (await UserExist(model.Email))
+            if (!await UserExist(model.Email))
             {
                 User user = new User
                 {
@@ -59,7 +59,7 @@ namespace UserMicroservice.Services
         {
             var result = new LoginResult() 
             { 
-                UserExist = await UserExist(model.Email) 
+                UserExist = UserExist(model.Email).Result
             };
 
             if (result.UserExist)
