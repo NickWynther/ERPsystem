@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace UserMicroservice.Data.Dto
 {
+    /// <summary>
+    /// Login infrormation model from client 
+    /// </summary>
     public class LoginDto
     {
         [Required]

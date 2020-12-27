@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice", "UserMic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryMicroservice", "InventoryMicroservice\InventoryMicroservice.csproj", "{6B659DE9-D381-439A-BA94-94F478ABCBF1}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5D724368-7F6C-4307-8F7A-C09D0CF1156D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{6B659DE9-D381-439A-BA94-94F478ABCBF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B659DE9-D381-439A-BA94-94F478ABCBF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B659DE9-D381-439A-BA94-94F478ABCBF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D724368-7F6C-4307-8F7A-C09D0CF1156D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D724368-7F6C-4307-8F7A-C09D0CF1156D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D724368-7F6C-4307-8F7A-C09D0CF1156D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D724368-7F6C-4307-8F7A-C09D0CF1156D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

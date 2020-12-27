@@ -35,7 +35,7 @@ namespace UserMicroservice.Services
             _audience = config["Tokens:Audience"];
         }
 
-        public JwtDto Create(User user , int minutes)
+        public Jwt Create(User user , int minutes)
         {
             var userRoles = _userManager.GetRolesAsync(user).Result;
             var claims = CreateClaims(user, userRoles);
@@ -49,7 +49,7 @@ namespace UserMicroservice.Services
                 signingCredentials: credentials
                 );
 
-            return new JwtDto
+            return new Jwt
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo,

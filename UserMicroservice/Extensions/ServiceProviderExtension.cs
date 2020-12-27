@@ -12,6 +12,9 @@ namespace ERPSystem.Services
 {
     public static class ServiceProviderExtension
     {
+        /// <summary>
+        /// Add jwt authentication to service collection. Set authentication params.
+        /// </summary>
         public static void AddJwtService(this IServiceCollection services , string key, string issuer)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

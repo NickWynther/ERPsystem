@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace UserMicroservice.Data.Dto
 {
+     /// <summary>
+     /// Registration infrormation model from client 
+     /// </summary>
     public class RegisterDto
     {
         [Required]

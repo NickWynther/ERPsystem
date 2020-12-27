@@ -7,6 +7,10 @@ using UserMicroservice.Data.Entities;
 
 namespace UserMicroservice.Data.DataInitializer
 {
+
+    /// <summary>
+    /// This class provide methods for database initialization (seeding), if database is empty.
+    /// </summary>
     public static class UserAndRoleDataInitializer
     {
         public static void SeedData(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
@@ -15,6 +19,9 @@ namespace UserMicroservice.Data.DataInitializer
             SeedUsers(userManager);
         }
 
+        /// <summary>
+        /// Create admin and user examples
+        /// </summary>
         private static void SeedUsers(UserManager<User> userManager)
         {
             if (userManager.FindByEmailAsync("johndoe@localhost").Result == null)
@@ -55,6 +62,10 @@ namespace UserMicroservice.Data.DataInitializer
             }
         }
 
+
+        /// <summary>
+        /// Create user and admin roles
+        /// </summary>
         private static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
             if (!roleManager.RoleExistsAsync("User").Result)

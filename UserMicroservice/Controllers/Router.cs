@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace UserMicroservice.Controllers
 {
+    /// <summary>
+    /// This class contains constant paths for controller methods
+    /// </summary>
     public class Router
     {
         public const string controller = "api/[controller]";

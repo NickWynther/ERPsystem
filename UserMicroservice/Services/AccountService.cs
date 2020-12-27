@@ -10,6 +10,9 @@ using UserMicroservice.Data.Enums;
 
 namespace UserMicroservice.Services
 {
+    /// <summary>
+    /// Service for login and registration.  
+    /// </summary>
     public class AccountService : IAccountService
     {
         private readonly SignInManager<User> _signInManager;
@@ -24,10 +27,12 @@ namespace UserMicroservice.Services
             _jwtFactory = jwtFactory;
         }
 
+        private async Task<bool> UserExist(string email) 
+            => await _userManager.FindByEmailAsync(email) != null;
+        
         public async Task<RegisterDto> Register(RegisterDto model , RoleType role)
         {
-            var existingUser = await _userManager.FindByEmailAsync(model.Email);
-            if (existingUser == null)
+            if (await UserExist(model.Email))
             {
                 User user = new User
                 {
@@ -52,10 +57,14 @@ namespace UserMicroservice.Services
 
         public async Task<LoginResult> Login(LoginDto model)
         {
-            var result = new LoginResult();
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (result.UserExist = user != null)
+            var result = new LoginResult() 
+            { 
+                UserExist = await UserExist(model.Email) 
+            };
+
+            if (result.UserExist)
             {
+                var user = await _userManager.FindByEmailAsync(model.Email);
                 var passwordCheck = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
                 if (result.PasswordCheck = passwordCheck.Succeeded)
                 {

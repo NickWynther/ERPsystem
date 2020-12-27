@@ -7,6 +7,9 @@ using UserMicroservice.Data.Enums;
 
 namespace UserMicroservice.Services
 {
+    /// <summary>
+    /// Service interface for login and registration.  
+    /// </summary>
     public interface IAccountService
     {
         Task<RegisterDto> Register(RegisterDto model , RoleType role);

@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace UserMicroservice.Data.Dto
 {
-    public class JwtDto
+    /// <summary>
+    /// Jwt object contains token directly and also additional usefull unecoded information for client
+    /// </summary>
+    public class Jwt
     {
         public string Token { get; set; }
         public DateTime Expiration { get; set; }

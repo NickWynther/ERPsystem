@@ -9,6 +9,6 @@ namespace UserMicroservice.Services
 {
     public interface IJwtFactory
     {
-        JwtDto Create(User user, int minutes);
+        Jwt Create(User user, int minutes);
     }
 }
