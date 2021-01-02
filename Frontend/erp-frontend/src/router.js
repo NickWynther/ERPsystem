@@ -18,6 +18,10 @@ export default new Router({
         {
             path: '/authorization',
             component: ()=> import('./views/Authorization.vue')
+        },
+        {
+            path: '/signin',
+            component: ()=> import('@/components/auth/Signin.vue')
         }
     ]
 })

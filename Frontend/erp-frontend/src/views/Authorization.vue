@@ -1,6 +1,14 @@
 <template>
     <div>
-        <h2>Sign-in or Sign-up </h2>
-        <router-link to='/products'>Products</router-link>
+        <Signup/>
     </div>
 </template>
+
+<script>
+import Signup from '@/components/auth/Signup.vue'
+export default {
+    components:{
+        Signup
+    }
+}
+</script>

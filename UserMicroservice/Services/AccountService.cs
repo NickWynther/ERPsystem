@@ -44,7 +44,11 @@ namespace UserMicroservice.Services
 
                 IdentityResult result = _userManager.CreateAsync(user, model.Password).Result;
 
-                if (result.Succeeded)
+                if (!result.Succeeded)
+                {
+                    return null;
+                }
+                else 
                 {
                     await _userManager.AddToRoleAsync(user, role.ToString());
                 }

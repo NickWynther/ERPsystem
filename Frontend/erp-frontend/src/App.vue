@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <h1>ERP system</h1>
-    <hr>
+    <NavHeader/>
     <router-view/>
   </div>
 </template>
 
 <script>
-//import ProductsList from '@/components/ProductsList'
+import NavHeader from '@/components/NavHeader'
 export default {
   name: 'App',
   components: {
-    //ProductsList
+    NavHeader
   }
 }
 </script>
@@ -23,6 +22,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
+

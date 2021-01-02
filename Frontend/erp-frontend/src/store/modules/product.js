@@ -8,6 +8,20 @@ export default{
             .then(response => 
                 ctx.commit('updateProducts', response.data)
             )
+        },
+
+        async fetchProductsByCategory(ctx,category){
+
+            if (category.id==0){
+                ctx.dispatch("fetchProducts")
+                return;
+            }
+
+            const url = "https://localhost:44306/api/Products/category/" + category.id
+            axios.get(url)
+            .then(response => 
+                ctx.commit('updateProducts', response.data)
+            )
         }
     },
     mutations:{
