@@ -22,6 +22,9 @@ export default new Router({
         {
             path: '/signin',
             component: ()=> import('@/components/auth/Signin.vue')
+        },
+        {  path: '*', 
+           redirect: '/' 
         }
     ]
 })

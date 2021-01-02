@@ -5,16 +5,32 @@
                 <li>{{getEmail}}</li>
                 <li><router-link to='/products'>Products</router-link></li>
                 <li><router-link to='/authorization'>Authorization</router-link></li>
-                <li><router-link to='/signin'>signin</router-link></li>     
+                <li><router-link to='/signin' @click.native="beforeLogout">{{signinButtonText}}</router-link></li>
+                    
             </ul>   
         </nav>
     </header>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters , mapMutations} from 'vuex'
 export default {
-    computed: mapGetters(['getEmail'])
+    computed: {
+      ...mapGetters(['getEmail' , 'isAuthenticated']),
+      signinButtonText(){
+        return this.isAuthenticated ? 'logout' : 'signin' ;
+      }
+    },
+    methods:{
+      ...mapMutations(['clearSession']),
+      beforeLogout(){
+        console.log('beforelogout')
+        if (this.isAuthenticated){
+          console.log("is Authenticated")
+          this.clearSession()
+        }
+      }
+    }
 }
 </script>
 
