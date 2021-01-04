@@ -42,6 +42,5 @@ namespace UserMicroservice.Tests
             result.StatusCode.Should().Be(201);
             result.Value.Should().Be(registerDto);
         }
-
     }
 }

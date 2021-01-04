@@ -36,7 +36,7 @@ namespace UserMicroservice.Tests
             //act
             var actresult = sut.Register(model, role).Result;
 
-            //asset
+            //assert
             actresult.Should().NotBeNull();
             actresult.Should().BeOfType<RegisterDto>();
             userManagerMock.Verify(um => um.FindByEmailAsync(It.IsAny<string>()), Times.Once);
@@ -62,7 +62,7 @@ namespace UserMicroservice.Tests
             //act
             var actresult = sut.Register(model, role).Result;
 
-            //asset
+            //assert
             actresult.Should().BeNull();
             userManagerMock.Verify(um => um.FindByEmailAsync(It.IsAny<string>()), Times.Once);
             userManagerMock.Verify(um => um.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);

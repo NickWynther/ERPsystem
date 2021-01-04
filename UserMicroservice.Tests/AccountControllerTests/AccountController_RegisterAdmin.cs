@@ -28,9 +28,6 @@ namespace UserMicroservice.Tests
             response.StatusCode.Should().Be(400);
         }
 
-        
-        
-
         [Fact]
         public void RegisterAdmin_NewUsername_Created()
         {

@@ -1,9 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UserMicroservice.Controllers;
 using UserMicroservice.Data.Dto;
 using UserMicroservice.Services;

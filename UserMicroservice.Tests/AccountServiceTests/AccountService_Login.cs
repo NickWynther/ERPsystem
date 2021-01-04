@@ -62,7 +62,7 @@ namespace UserMicroservice.Tests
             //act
             var result = sut.Login(model).Result;
 
-            //asset
+            //assert
             result.Jwt.Should().BeNull();
             result.UserExist.Should().BeTrue();
             result.PasswordCheck.Should().BeFalse();
@@ -86,7 +86,7 @@ namespace UserMicroservice.Tests
             //act
             var result = sut.Login(model).Result;
 
-            //asset
+            //assert
             result.Jwt.Should().BeNull();
             result.UserExist.Should().BeFalse();
             result.PasswordCheck.Should().BeFalse();
@@ -101,6 +101,5 @@ namespace UserMicroservice.Tests
 
         private Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
             => new Mock<UserManager<TUser>>(new Mock<IUserStore<TUser>>().Object, null, null, null, null, null, null, null, null);
-
     }
 }

@@ -14,7 +14,6 @@ namespace UserMicroservice.Tests
 {
     public class JwtFactory_Create
     {
-
         [Theory]
         [InlineData(RoleType.Admin , 60)]
         [InlineData(RoleType.User , 150)]
@@ -33,7 +32,7 @@ namespace UserMicroservice.Tests
             //act
             var result = sut.Create(user, minutes);
 
-            //asset
+            //assert
             result.Should().NotBeNull();
             result.Should().BeOfType<Jwt>();
             result.Expiration.Should().BeCloseTo(DateTime.UtcNow.AddMinutes(minutes) , precision:60000);
@@ -41,10 +40,7 @@ namespace UserMicroservice.Tests
             result.Token.Length.Should().BeGreaterThan(10);
             userManagerMock.Verify(um => um.GetRolesAsync(user), Times.Once);
         }
-
-
         private Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
             => new Mock<UserManager<TUser>>(new Mock<IUserStore<TUser>>().Object, null, null, null, null, null, null, null, null);
-
     }
 }
